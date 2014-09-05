@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>RadDash</title>
+</head>
+<body>
+	<h1>RadDash</h1>
+	<h3>Add Feed</h3>
+	<form action="/feed/add" method="POST">
+		<select name="kind">
+			<option value="tweet">Twitter</option>
+			<option value="weather_forecast">Weather</option>
+			<option value="nyt_article">New York Times</option>
+		</select>
+		<input type="text" name="search" placeholder="Search Term">
+		<button>Submit</button>
+	</form>
+	<% if feeds %>
+		<h3>Feeds</h3>
+		<ul>
+		<% feeds.each do |feed| %>
+			<li><a href="/feed/<%= "#{feed.kind}" %>"><%= feed.kind.capitalize %></a></li>
+			<ul>
+			<% kind = feed.kind.capitalize.constantize.where(feed_id: feed.id) %>
+			<% kind.each do |f| %>
+				<li><a href="<%= f.url %>"><%= f.content %></a></li> 
+			<% end %>
+			</ul>
+		<% end %>
+	<% end %>
+</body>
+</html>
