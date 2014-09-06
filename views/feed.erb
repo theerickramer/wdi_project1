@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Feed</title>
+</head>
+<body>
+	<% if feeds[0].kind == "tweet" %>
+			<% header = "Twitter" %>
+		<% elsif feeds[0].kind == "weather_forecast" %>
+			<% header = "Weather" %>
+		<% elsif feeds[0].kind == "nyt_article" %>
+			<% header = "New York Times" %>
+	<% end %>
+	<h1><%= header %></h1>	
+	<% feeds.each do |feed| %>
+	<% if header == "Twitter"
+		hash = "\#" 
+	else
+		hash = ""  
+	end %>
+	<h3><%= hash + feed.search %></h3>
+	<form action="/feed" method="POST">
+		<input type="hidden" name="_method" value="delete">
+		<input type="hidden" name="feed_id" value="<%= feed.id %>">
+		<button>Delete Feed</button>
+	</form>
+		<ul> 
+		<% kind = feed.kind.capitalize.constantize.where(feed_id: feed.id) %>
+		<% kind.each do |f| %>
+			<li><a href="<%= f.url %>"><%= f.content %></a>	<% if f.tag.length > 0
+					button_label = "Update Tag" %>
+					<%= " \##{f.tag}" %>
+				<% else 
+					button_label = "Add Tag"
+				end %></li>
+			<form action="/feed" method="POST">
+				<input type="hidden" name="_method" value="PUT">
+				<input type="hidden" name="feed_id" value="<%= f.feed_id %>">
+				<input type="text" name="tag" placeholder="<%= f.tag %>">
+				<button><%= button_label %></button>
+			</form>
+			<form action="/feed" method="POST">
+				<input type="hidden" name="_method" value="PUT">
+				<input type="hidden" name="feed_id" value="<%= f.feed_id %>">
+				<input type="hidden" name="tag" value="">
+				<button>Delete Tag</button>
+			</form> 
+			<form action="/feed/post" method="POST">
+				<input type="hidden" name="_method" value="delete">
+				<input type="hidden" name="feed_id" value="<%= f.feed_id %>">
+				<button>Delete Post</button>
+			</form> 
+		<% end %>
+		</ul>
+	<% end %>
+</body>
+</html>

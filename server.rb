@@ -20,11 +20,12 @@ get("/") do
 end
 
 post("/feed/add") do
-	if params[:kind] == "tweet"
+	case params[:kind]
+	when "tweet"
 		Feed.create({kind: "tweet", search: params[:search]})
-	elsif params[:kind] == "weather_forecast"
+	when "weather_forecast"
 		Feed.create({kind: "weather_forecast", search: params[:search]})
-	elsif params[:kind] == "nyt_article"
+	when "nyt_article"
 		Feed.create({kind: "nyt_article", search: params[:search]})
 	end
 	feed = Feed.last
@@ -34,13 +35,28 @@ post("/feed/add") do
 end
 
 get("/feed/:name") do
-
+	feeds = Feed.where(kind: params[:name])
+	erb(:feed, { locals: { feeds: feeds } })
 end
 
-put("/feed/:post/:tag") do
-
+put("/feed") do
+	feed = Feed.find_by(id: params[:feed_id]) 
+	kind = feed.kind.capitalize.constantize
+	post = Weather_forecast.find_by(feed_id: feed.id)   
+	post.update(:tag => params[:tag])
+	redirect request.referrer
 end
 
-delete("/feed/:post") do 
+delete("/feed/post") do
+	feed = Feed.find_by(id: params[:feed_id]) 
+	kind = feed.kind.capitalize.constantize
+	post = Weather_forecast.find_by(feed_id: feed.id)   
+	post.destroy
+	redirect request.referrer 
+end
 
+delete("/feed") do
+	feed = Feed.find_by(id: params[:feed_id]) 
+	feed.destroy
+	redirect request.referrer 
 end
