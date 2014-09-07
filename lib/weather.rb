@@ -1,7 +1,3 @@
-require 'httparty'
-require 'pry'
-require_relative "./feed"
-
 class Weather_forecast < ActiveRecord::Base
 	def self.get(feed_id)
 		feed = Feed.find_by(id: feed_id)
@@ -35,7 +31,3 @@ class Weather_forecast < ActiveRecord::Base
 		end
 	end
 end
-
-# binding.pry
-
-# day["date"]["icon_url"]

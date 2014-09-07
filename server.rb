@@ -1,14 +1,14 @@
-require 'sinatra'
-require 'sinatra/reloader'
-require 'pry'
-require 'active_record'
+require 'rubygems'
+require 'bundler/setup'
+Bundler.require(:default)
+
 require_relative "./lib/connection"
 require_relative "./lib/feed"
 require_relative "./lib/nytimes"
 require_relative "./lib/weather"
 require_relative "./lib/twitter"
 
-set :server, 'webrick'
+set :server, 'webrick' # resolves http conflict between sinatra & twitter gem
 
 after do 
 	ActiveRecord::Base.connection.close
@@ -29,7 +29,7 @@ post("/feed/add") do
 		Feed.create({kind: "nyt_article", search: params[:search]})
 	end
 	feed = Feed.last
-	kind = params[:kind].capitalize.constantize #converts string to class
+	kind = params[:kind].capitalize.constantize # converts string to class
 	kind.get(feed.id)
 	redirect("/")
 end

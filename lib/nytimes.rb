@@ -1,6 +1,3 @@
-require 'httparty'
-require_relative "./feed"
-
 class Nyt_article < ActiveRecord::Base
 	def self.get(feed_id)
 		feed = Feed.find_by(id: feed_id)
