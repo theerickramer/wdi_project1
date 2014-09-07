@@ -14,15 +14,22 @@ after do
 	ActiveRecord::Base.connection.close
 end
 
-# binding.pry
-def weather_update
+
+def weather_update_daily	
 	weather_feeds = Feed.where(kind: "weather_forecast")
 	last_weather = weather_feeds.last
-	feed = Feed.create({kind: "weather_forecast", search: last_weather.search})
-	Weather_forecast.get(feed.id)
+	if last_weather
+		last_get = last_weather.date.split("/")[1]
+		if Time.now.strftime("%-d") > last_get
+			feed = Feed.create({kind: "weather_forecast", search: last_weather.search, date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
+			Weather_forecast.get(feed.id)
+		end
+	end
 end
 
+
 get("/") do
+	weather_update_daily
 	feeds = Feed.all()
 	erb(:index, { locals: {feeds: feeds } })
 end
@@ -30,11 +37,11 @@ end
 post("/feed/add") do
 	case params[:kind]
 	when "tweet"
-		Feed.create({kind: "tweet", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %l:%M:%S%p")})
+		Feed.create({kind: "tweet", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
 	when "weather_forecast"
-		Feed.create({kind: "weather_forecast", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %l:%M:%S%p")})
+		Feed.create({kind: "weather_forecast", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
 	when "nyt_article"
-		Feed.create({kind: "nyt_article", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %l:%M:%S%p")})
+		Feed.create({kind: "nyt_article", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
 	end
 	feed = Feed.last
 	kind = params[:kind].capitalize.constantize # converts string to class

@@ -1,4 +1,5 @@
 class Tweet < ActiveRecord::Base
+	# belongs_to :feed
 	def self.get(feed_id)
 		client = Twitter::REST::Client.new do |config|
 		  config.consumer_key        = "AQJ8SKdgZC1z60NNHbrddlpuA"
