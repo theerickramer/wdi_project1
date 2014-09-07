@@ -20,13 +20,18 @@
 		hash = ""  
 	end %>
 	<h3><%= hash + feed.search %></h3>
+	<form action="/feed/search" method="GET">
+		<input type="text" name="search" placeholder="Search Tag">
+		<input type="hidden" name="feed_id" value="<%= feed.id %>">
+		<button>Search</button>
+	</form>
 	<form action="/feed" method="POST">
 		<input type="hidden" name="_method" value="delete">
 		<input type="hidden" name="feed_id" value="<%= feed.id %>">
 		<button>Delete Feed</button>
 	</form>
 		<ul> 
-		<% kind = feed.kind.capitalize.constantize.where(feed_id: feed.id) %>
+		<% kind = feed.kind.capitalize.constantize.where(feed_id: feed.id).order(id: :asc) %>
 		<% kind.each do |f| %>
 			<li><a href="<%= f.url %>"><%= f.content %></a>	<% if f.tag.length > 0
 					button_label = "Update Tag" %>
