@@ -42,7 +42,7 @@ end
 put("/feed") do
 	feed = Feed.find_by(id: params[:feed_id]) 
 	kind = feed.kind.capitalize.constantize
-	post = Weather_forecast.find_by(feed_id: feed.id)   
+	post = kind.find_by(id: params[:id])     
 	post.update(:tag => params[:tag])
 	redirect request.referrer
 end
@@ -50,7 +50,7 @@ end
 delete("/feed/post") do
 	feed = Feed.find_by(id: params[:feed_id]) 
 	kind = feed.kind.capitalize.constantize
-	post = Weather_forecast.find_by(feed_id: feed.id)   
+	post = kind.find_by(id: params[:id])   
 	post.destroy
 	redirect request.referrer 
 end

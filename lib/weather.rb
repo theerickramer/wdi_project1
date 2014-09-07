@@ -3,7 +3,6 @@ require 'pry'
 require_relative "./feed"
 
 class Weather_forecast < ActiveRecord::Base
-	belongs_to :feed	
 	def self.get(feed_id)
 		feed = Feed.find_by(id: feed_id)
 		state = feed.search.split(",")

@@ -37,18 +37,21 @@
 			<form action="/feed" method="POST">
 				<input type="hidden" name="_method" value="PUT">
 				<input type="hidden" name="feed_id" value="<%= f.feed_id %>">
+				<input type="hidden" name="id" value="<%= f.id %>">
 				<input type="text" name="tag" placeholder="<%= f.tag %>">
 				<button><%= button_label %></button>
 			</form>
 			<form action="/feed" method="POST">
 				<input type="hidden" name="_method" value="PUT">
 				<input type="hidden" name="feed_id" value="<%= f.feed_id %>">
+				<input type="hidden" name="id" value="<%= f.id %>">
 				<input type="hidden" name="tag" value="">
 				<button>Delete Tag</button>
 			</form> 
 			<form action="/feed/post" method="POST">
 				<input type="hidden" name="_method" value="delete">
 				<input type="hidden" name="feed_id" value="<%= f.feed_id %>">
+				<input type="hidden" name="id" value="<%= f.id %>">
 				<button>Delete Post</button>
 			</form> 
 		<% end %>
