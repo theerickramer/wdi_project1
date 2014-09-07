@@ -13,13 +13,13 @@
 			<% header = "New York Times" %>
 	<% end %>
 	<h1><%= header %></h1>	
-	<% feeds.each do |feed| %>
+	<% feeds.order(id: :desc).each do |feed| %>
 	<% if header == "Twitter"
 		hash = "\#" 
 	else
 		hash = ""  
 	end %>
-	<h3><%= hash + feed.search %></h3>
+	<h3><%= hash + "#{feed.search} - " %><em><%= "#{feed.date}"%></em></h3>
 	<form action="/feed/search" method="GET">
 		<input type="text" name="search" placeholder="Search Tag">
 		<input type="hidden" name="feed_id" value="<%= feed.id %>">
