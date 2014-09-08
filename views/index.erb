@@ -19,6 +19,10 @@
 	</form>
 	<% if feeds %>
 		<h3>Feeds</h3>
+		<form action="/feed/search" method="GET">
+			<input type="text" name="search" placeholder="Search Tag">
+			<button>Search</button>
+		</form>
 		<ul>
 		<% feeds.order(id: :desc).each do |feed| %>
 			<% if feed.kind == "tweet" %>
@@ -40,7 +44,7 @@
 			</li>
 			<ul>
 			<% kind = feed.kind.capitalize.constantize.where(feed_id: feed.id) %>
-			<% kind.each do |f| %>
+			<% kind.order(id: :asc).each do |f| %>
 				<li><a href="<%= f.url %>"><%= f.content %></a> 
 				<% if f.tag.length > 0 %>
 					<%= " \##{f.tag}" %>

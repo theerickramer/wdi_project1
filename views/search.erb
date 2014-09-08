@@ -7,8 +7,10 @@
 <body>
 	<h1>Search Results: #<%= search %></h1>
 	<ul>
-		<% posts.each do |post| %>
-			<li><a href="<%= post.url %>"><%= post.content %></a></li>
+		<% tagged.each do |tag| %>
+			<% tag.each do |post| %>
+				<li><a href="<%= post.url %>"><%= post.content %></a></li>
+			<% end %>
 		<% end %>
 	</ul>
 </body>

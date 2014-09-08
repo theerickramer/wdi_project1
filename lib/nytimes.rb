@@ -25,7 +25,7 @@ class Nyt_article < ActiveRecord::Base
 				content: new["headline"]["main"],
 				url: new["web_url"], 
 				date: new["pub_date"],
-				# image: "http://www.nytimes.com/#{new["multimedia"][0]["url"]}"
+				image: "http://www.nytimes.com/#{new["multimedia"][0]["url"]}",
 				show: true, 
 				tag:""}  
 			Nyt_article.create(post)
@@ -33,5 +33,5 @@ class Nyt_article < ActiveRecord::Base
 	end
 end
 
-# if snippet
+# if multimedia, snippet
 # "http://api.nytimes.com/svc/mostpopular/v2/mostviewed/all/1.json?api-key=83f1e7b8266adc1daa0d4fbb2fffdcc5:15:65256769"

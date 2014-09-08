@@ -14,6 +14,7 @@ after do
 	ActiveRecord::Base.connection.close
 end
 
+# binding.pry
 
 def weather_update_daily	
 	weather_feeds = Feed.where(kind: "weather_forecast")
@@ -49,12 +50,23 @@ post("/feed/add") do
 	redirect("/")
 end
 
+# get("/feed/search") do
+# 	feed = Feed.find_by(id: params[:feed_id])
+# 	kind = feed.kind.capitalize.constantize
+# 	search = params[:search]
+# 	posts = kind.where(tag: search)
+# 	erb(:search, { locals: { posts: posts, search: search } })
+# end
 get("/feed/search") do
-	feed = Feed.find_by(id: params[:feed_id])
-	kind = feed.kind.capitalize.constantize
+	feeds = Feed.all()
+	tagged = []
 	search = params[:search]
-	posts = kind.where(tag: search)
-	erb(:search, { locals: { posts: posts, search: search } })
+	feeds.each do |feed|
+		kind = feed.kind.capitalize.constantize
+		posts = kind.where(tag: search)
+		tagged << posts
+	end
+	erb(:search, { locals: { tagged: tagged, search: search } })
 end
 
 get("/feed/:name") do
