@@ -3,9 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>RadDash</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link href='http://fonts.googleapis.com/css?family=Exo:400,900italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
-	<h1>RadDash</h1>
+	<h1 class="rad">RadDash</h1>
 	<h3>Add Feed</h3>
 	<form action="/feed/add" method="POST">
 		<select name="kind">
@@ -34,7 +36,7 @@
 			<% end %>
 			<% if !feeds_exist.include?(header) %>
 				<% feeds_exist << header %>
-				<form action="/feed/<%= feed.kind %>" method="GET">
+				<form class="feeds" action="/feed/<%= feed.kind %>" method="GET">
 					<input type="hidden" name="page" value="1">
 					<button> <%= header.split(":")[0]%> </button>
 				</form>
@@ -61,7 +63,7 @@
 				<form action="/feed" method="POST">
 					<input type="hidden" name="_method" value="delete">
 					<input type="hidden" name="feed_id" value="<%= feed.id %>">
-					<button>Delete Feed</button>
+					<button>x</button>
 				</form>
 				<!-- <form action="/feed/<%= feed.kind %>" method="GET">
 					<input type="hidden" name="page" value="1">

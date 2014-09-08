@@ -3,9 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Feed</title>
-	
+	<link rel="stylesheet" type="text/css" href="../../style.css">
+	<link href='http://fonts.googleapis.com/css?family=Exo:400,900italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
+	<h1 class="rad">RadDash</h1>
 	<% if feeds[0].kind == "tweet" %>
 			<% header = "Twitter" %>
 		<% elsif feeds[0].kind == "forecast" %>
@@ -17,10 +19,7 @@
 	<% end %>
 	<h1><%= header %></h1>
 	<% feeds.order(id: :desc).limit(1).offset(page - 1).each do |feed| %>
-	<h5>Page <%= page %> </h5>
-	<form action="/" method="GET">
-		<button>Back to Dash</button>
-	</form>
+	<h3>Page <%= page %> </h3>
 	<% if page > 1 %>
 		<form action="/feed/<%= feed.kind %>" method="GET">
 			<input type="hidden" name="page" value="<%= page - 1 %>">
@@ -33,6 +32,9 @@
 		<button>Next Page</button>
 	</form>
 	<% end %>
+	<form action="/" method="GET">
+		<button>Back to Dash</button>
+	</form>
 	<% if header == "Twitter"
 		hash = "\#" 
 	else

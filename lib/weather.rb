@@ -17,7 +17,7 @@ class Forecast < ActiveRecord::Base
 						feed_id: feed_id, 
 						content: "#{day["date"]["weekday"]} #{day["date"]["monthname"]} #{day["date"]["day"]} #{day["date"]["year"]} - HI: #{day["high"]["fahrenheit"]}/LO: #{day["low"]["fahrenheit"]}, #{day["conditions"]}", 
 						date: day["date"]["pretty"],
-						url: "http://www.weather.com", 
+						url: "http://www.wunderground.com", 
 						image: day["icon_url"], 
 						show: true, 
 						tag: ""}

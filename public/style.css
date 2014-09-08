@@ -1,0 +1,73 @@
+body {
+	text-align: center;
+	font-family: sans-serif;
+	background-color: silver
+}
+
+h1 {
+	font-size: 30px;
+	margin: 0 auto;
+	padding: 15px 0 0 0;
+	color: #2A15C2;
+	background: #897DE1;
+}
+
+h3 {
+	margin-top: 3px;
+	background-color: slategrey;
+	color: #FFF650;
+	padding: 5px 0;
+
+}
+
+.rad {
+	font-size: 50px;
+	font-family: 'Exo', sans-serif;
+	font-weight: 900;
+	font-style: italic;
+	color: #FFF200;
+	margin: 0 auto;
+	background-color: #7C2BC6;
+}
+
+.feeds {
+	display: block;
+	margin-bottom: 5px;
+}
+
+a:link {
+	color: #4836C9;
+}
+
+a:hover {
+	color: #2A15C2;
+}
+
+a:visited {
+	color: #690BBE;
+}
+
+ul {
+	list-style-type: none;
+	margin-bottom: 20px;
+}
+
+li {
+	margin: 2px 0 2px 0;
+	padding: 2px 0 2px 0;
+}
+
+form {
+	display: inline;
+}
+
+button {
+	background-color: silver;
+	padding: 2px;
+}
+
+button:hover {
+	background-color: slategrey;
+	border-radius: 5px;
+	padding: 2px;
+}

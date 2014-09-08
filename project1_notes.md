@@ -1,7 +1,5 @@
 to do:
 tumbler?
-add pagination
-add nav
 responsive design
 css
 
