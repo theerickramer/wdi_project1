@@ -11,8 +11,9 @@
 		<select name="kind">
 			<option value="" disabled selected>Choose Feed</option>
 			<option value="tweet">Twitter</option>
-			<option value="weather_forecast">Weather</option>
-			<option value="nyt_article">New York Times</option>
+			<option value="forecast">Weather</option>
+			<option value="article">New York Times</option>
+			<option value="sound">Soundcloud</option>
 		</select>
 		<input type="text" name="search" placeholder="Search Term">
 		<button>Submit</button>
@@ -27,10 +28,12 @@
 		<% feeds.order(id: :desc).each do |feed| %>
 			<% if feed.kind == "tweet" %>
 				<% header = "Twitter: \#" %>
-			<% elsif feed.kind == "weather_forecast" %>
+			<% elsif feed.kind == "forecast" %>
 				<% header = "Weather: " %>
-			<% elsif feed.kind == "nyt_article" %>
+			<% elsif feed.kind == "article" %>
 				<% header = "New York Times: " %>
+			<% elsif feed.kind == "sound" %>
+				<% header = "Soundcloud: " %>	
 			<% end %>
 			<li><%= header + "#{feed.search} - " %><em><%= "#{feed.date}"%></em>
 				<form action="/feed" method="POST">

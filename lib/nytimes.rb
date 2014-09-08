@@ -1,5 +1,5 @@
-class Nyt_article < ActiveRecord::Base
-	# belongs_to :feed
+class Article < ActiveRecord::Base
+	belongs_to :feed
 	def self.get(feed_id)
 		feed = Feed.find_by(id: feed_id)
 		# search NEWSWIRE
@@ -25,10 +25,13 @@ class Nyt_article < ActiveRecord::Base
 				content: new["headline"]["main"],
 				url: new["web_url"], 
 				date: new["pub_date"],
-				image: "http://www.nytimes.com/#{new["multimedia"][0]["url"]}",
 				show: true, 
-				tag:""}  
-			Nyt_article.create(post)
+				tag:"",
+			}
+			if new["multimedia"][0]
+				post[:image] = "http://www.nytimes.com/#{new["multimedia"][0]["url"]}"
+			end
+			Article.create(post)
 		end
 	end
 end

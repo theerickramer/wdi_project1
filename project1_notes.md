@@ -1,5 +1,4 @@
 to do:
-add soundcloud
 add pagination
 add nav
 json
@@ -24,8 +23,3 @@ add spotify
 add rdio
 
 problems:
-class associations: 
-	class names not SnakeCase?
-	error  NameError at /feed
-	uninitialized constant Feed::WeatherForecast
-	file: inheritance.rb location: compute_type line: 133 feed.destroy

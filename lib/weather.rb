@@ -1,5 +1,5 @@
-class Weather_forecast < ActiveRecord::Base
-	# belongs_to :feed
+class Forecast < ActiveRecord::Base
+	belongs_to :feed
 	def self.get(feed_id)
 		feed = Feed.find_by(id: feed_id)
 		state = feed.search.split(",")
@@ -16,11 +16,12 @@ class Weather_forecast < ActiveRecord::Base
 					forecast = {
 						feed_id: feed_id, 
 						content: "#{day["date"]["weekday"]} #{day["date"]["monthname"]} #{day["date"]["day"]} #{day["date"]["year"]} - HI: #{day["high"]["fahrenheit"]}/LO: #{day["low"]["fahrenheit"]}, #{day["conditions"]}", 
-						date: day["date"]["pretty"], 
-						url: day["icon_url"], 
+						date: day["date"]["pretty"],
+						url: "http://www.weather.com", 
+						image: day["icon_url"], 
 						show: true, 
 						tag: ""}
-					Weather_forecast.create(forecast)
+					Forecast.create(forecast)
 			end
 		else
 			forecast = {
@@ -28,7 +29,7 @@ class Weather_forecast < ActiveRecord::Base
 				content: "#{feed.search} not found",
 				show: true, 
 				tag: ""}
-			Weather_forecast.create(forecast)
+			Forecast.create(forecast)
 		end
 	end
 end

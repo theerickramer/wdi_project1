@@ -7,10 +7,12 @@
 <body>
 	<% if feeds[0].kind == "tweet" %>
 			<% header = "Twitter" %>
-		<% elsif feeds[0].kind == "weather_forecast" %>
+		<% elsif feeds[0].kind == "forecast" %>
 			<% header = "Weather" %>
-		<% elsif feeds[0].kind == "nyt_article" %>
+		<% elsif feeds[0].kind == "article" %>
 			<% header = "New York Times" %>
+		<% elsif feeds[0].kind == "sound" %>
+			<% header = "Soundcloud" %>
 	<% end %>
 	<h1><%= header %></h1>	
 	<% feeds.order(id: :desc).each do |feed| %>

@@ -7,6 +7,7 @@ require_relative "./lib/feed"
 require_relative "./lib/nytimes"
 require_relative "./lib/weather"
 require_relative "./lib/twitter"
+require_relative "./lib/soundcloud"
 
 set :server, 'webrick' # resolves http conflict between sinatra & twitter gem
 
@@ -17,13 +18,15 @@ end
 # binding.pry
 
 def weather_update_daily	
-	weather_feeds = Feed.where(kind: "weather_forecast")
+	weather_feeds = Feed.where(kind: "forecast")
 	last_weather = weather_feeds.last
 	if last_weather
-		last_get = last_weather.date.split("/")[1]
-		if Time.now.strftime("%-d") > last_get
-			feed = Feed.create({kind: "weather_forecast", search: last_weather.search, date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
-			Weather_forecast.get(feed.id)
+		# last_get = last_weather.date.split("/")[1] # get last weather feed day
+		# if Time.now.strftime("%-d") > last_get # compare to last weather feed day
+		last_get = last_weather.date.split(":")[0].split(" ")[1] # get last weather feed hour
+		if Time.now.strftime("%-l") > last_get # compare to last weather feed hour
+			feed = Feed.create({kind: "forecast", search: last_weather.search, date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
+			Forecast.get(feed.id)
 		end
 	end
 end
@@ -33,21 +36,6 @@ get("/") do
 	weather_update_daily
 	feeds = Feed.all()
 	erb(:index, { locals: {feeds: feeds } })
-end
-
-post("/feed/add") do
-	case params[:kind]
-	when "tweet"
-		Feed.create({kind: "tweet", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
-	when "weather_forecast"
-		Feed.create({kind: "weather_forecast", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
-	when "nyt_article"
-		Feed.create({kind: "nyt_article", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
-	end
-	feed = Feed.last
-	kind = params[:kind].capitalize.constantize # converts string to class
-	kind.get(feed.id)
-	redirect("/")
 end
 
 # get("/feed/search") do
@@ -72,6 +60,23 @@ end
 get("/feed/:name") do
 	feeds = Feed.where(kind: params[:name])
 	erb(:feed, { locals: { feeds: feeds } })
+end
+	
+post("/feed/add") do
+	case params[:kind]
+	when "tweet"
+		Feed.create({kind: "tweet", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
+	when "forecast"
+		Feed.create({kind: "forecast", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
+	when "article"
+		Feed.create({kind: "article", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
+	when "sound"
+		Feed.create({kind: "sound", search: params[:search], date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
+	end
+	feed = Feed.last
+	kind = params[:kind].capitalize.constantize # converts string to class
+	kind.get(feed.id)
+	redirect("/")
 end
 
 put("/feed") do
