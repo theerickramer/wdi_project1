@@ -42,6 +42,7 @@
 					<button>Delete Feed</button>
 				</form>
 				<form action="/feed/<%= feed.kind %>" method="GET">
+					<input type="hidden" name="page" value="1">
 					<button> See All <%= header.split(":")[0]%> Feeds </button>
 				</form>
 			</li>

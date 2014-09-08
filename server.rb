@@ -17,6 +17,8 @@ end
 
 # binding.pry
 
+# page = 0 # initialize feeds page
+
 def weather_update_daily	
 	weather_feeds = Feed.where(kind: "forecast")
 	last_weather = weather_feeds.last
@@ -52,7 +54,8 @@ end
 
 get("/feed/:name") do
 	feeds = Feed.where(kind: params[:name])
-	erb(:feed, { locals: { feeds: feeds } })
+	page = params[:page].to_i
+	erb(:feed, { locals: { feeds: feeds, page: page } })
 end
 
 get("/as") do

@@ -14,8 +14,21 @@
 		<% elsif feeds[0].kind == "sound" %>
 			<% header = "Soundcloud" %>
 	<% end %>
-	<h1><%= header %></h1>	
-	<% feeds.order(id: :desc).each do |feed| %>
+	<h1><%= header %></h1>
+	<% feeds.order(id: :desc).limit(1).offset(page - 1).each do |feed| %>
+	<h5>Page <%= page %> </h5>
+	<% if page > 1 %>
+		<form action="/feed/<%= feed.kind %>" method="GET">
+			<input type="hidden" name="page" value="<%= page - 1 %>">
+			<button>Prev Page</button>
+		</form>
+	<% end %>
+	<% if page < feeds.length %>
+	<form action="/feed/<%= feed.kind %>" method="GET">
+		<input type="hidden" name="page" value="<%= page + 1 %>">
+		<button>Next Page</button>
+	</form>
+	<% end %>
 	<% if header == "Twitter"
 		hash = "\#" 
 	else
@@ -32,8 +45,8 @@
 		<input type="hidden" name="feed_id" value="<%= feed.id %>">
 		<button>Delete Feed</button>
 	</form>
-		<ul> 
-		<% kind = feed.kind.capitalize.constantize.where(feed_id: feed.id).order(id: :asc) %>
+	<ul> 
+		<% kind = feed.kind.capitalize.constantize.where(feed_id: feed.id).order(id: :asc) %> 
 		<% kind.each do |f| %>
 			<li><a href="<%= f.url %>"><%= f.content %></a>	<% if f.tag.length > 0
 					button_label = "Update Tag" %>

@@ -1,7 +1,7 @@
 to do:
+tumbler?
 add pagination
 add nav
-json
 responsive design
 css
 
