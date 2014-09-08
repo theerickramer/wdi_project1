@@ -33,10 +33,13 @@ def weather_update_daily
 	end
 end
 
-
 get("/") do
-	weather_update_daily
 	feeds = Feed.all()
+	
+	weather_update_daily()
+	if weather_update_daily
+		last_weather.destroy
+	end
 	erb(:index, { locals: {feeds: feeds } })
 end
 

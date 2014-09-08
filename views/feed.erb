@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Feed</title>
+	
 </head>
 <body>
 	<% if feeds[0].kind == "tweet" %>
@@ -17,6 +18,9 @@
 	<h1><%= header %></h1>
 	<% feeds.order(id: :desc).limit(1).offset(page - 1).each do |feed| %>
 	<h5>Page <%= page %> </h5>
+	<form action="/" method="GET">
+		<button>Back to Dash</button>
+	</form>
 	<% if page > 1 %>
 		<form action="/feed/<%= feed.kind %>" method="GET">
 			<input type="hidden" name="page" value="<%= page - 1 %>">

@@ -19,11 +19,33 @@
 		<button>Submit</button>
 	</form>
 	<% if feeds %>
-		<h3>Feeds</h3>
+		<h3>All Feeds</h3>
+		<ul>
+		<% feeds_exist = [] %>
+		<% feeds.order(id: :desc).each do |feed| %>
+			<% if feed.kind == "tweet" %>
+				<% header = "Twitter: \#" %>
+			<% elsif feed.kind == "forecast" %>
+				<% header = "Weather: " %>
+			<% elsif feed.kind == "article" %>
+				<% header = "New York Times: " %>
+			<% elsif feed.kind == "sound" %>
+				<% header = "Soundcloud: " %>	
+			<% end %>
+			<% if !feeds_exist.include?(header) %>
+				<% feeds_exist << header %>
+				<form action="/feed/<%= feed.kind %>" method="GET">
+					<input type="hidden" name="page" value="1">
+					<button> <%= header.split(":")[0]%> </button>
+				</form>
+			<% end %>
+		<% end %>
+		</ul>
 		<form action="/feed/search" method="GET">
 			<input type="text" name="search" placeholder="Search Tag">
 			<button>Search</button>
 		</form>
+		<h3>Timeline</h3>
 		<ul>
 		<% feeds.order(id: :desc).each do |feed| %>
 			<% if feed.kind == "tweet" %>
@@ -35,16 +57,16 @@
 			<% elsif feed.kind == "sound" %>
 				<% header = "Soundcloud: " %>	
 			<% end %>
-			<li><%= header + "#{feed.search} - " %><em><%= "#{feed.date}"%></em>
+			<li><strong><%= header + "#{feed.search}" %></strong><em><%= " - #{feed.date}"%></em>
 				<form action="/feed" method="POST">
 					<input type="hidden" name="_method" value="delete">
 					<input type="hidden" name="feed_id" value="<%= feed.id %>">
 					<button>Delete Feed</button>
 				</form>
-				<form action="/feed/<%= feed.kind %>" method="GET">
+				<!-- <form action="/feed/<%= feed.kind %>" method="GET">
 					<input type="hidden" name="page" value="1">
 					<button> See All <%= header.split(":")[0]%> Feeds </button>
-				</form>
+				</form> -->
 			</li>
 			<ul>
 			<% kind = feed.kind.capitalize.constantize.where(feed_id: feed.id) %>
