@@ -1,7 +1,9 @@
 body {
+	width: 100%;
 	text-align: center;
 	font-family: sans-serif;
-	background-color: silver
+	background-color: silver;
+	margin: 0 auto;
 }
 
 h1 {
@@ -14,7 +16,7 @@ h1 {
 
 h3 {
 	margin-top: 3px;
-	background-color: slategrey;
+	background-color: #AC75DF;
 	color: #FFF650;
 	padding: 5px 0;
 
@@ -63,11 +65,11 @@ form {
 
 button {
 	background-color: silver;
-	padding: 2px;
+	padding: 0 3px 0 3px;
 }
 
 button:hover {
 	background-color: slategrey;
 	border-radius: 5px;
-	padding: 2px;
+	padding: 0 3px 0 3px;
 }

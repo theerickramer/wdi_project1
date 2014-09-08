@@ -1,3 +1,4 @@
+########## CONFIG ##########
 require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default)
@@ -15,9 +16,7 @@ after do
 	ActiveRecord::Base.connection.close
 end
 
-# binding.pry
-
-# page = 0 # initialize feeds page
+########## METHODS ##########
 
 def weather_update_daily	
 	weather_feeds = Feed.where(kind: "forecast")
@@ -33,12 +32,21 @@ def weather_update_daily
 	end
 end
 
+def find_post(feed_id, id)
+	feed = Feed.find_by(id: feed_id) 
+	kind = feed.kind.capitalize.constantize
+	post = kind.find_by(id: id) 
+end
+
+########## ROUTES ##########
+
 get("/") do
 	feeds = Feed.all()
 	
 	weather_update_daily()
-	if weather_update_daily
-		last_weather.destroy
+	weather_feeds = Feed.where(kind: "forecast")
+	if weather_feeds.length > 1
+		weather_feeds.first.destroy
 	end
 	erb(:index, { locals: {feeds: feeds } })
 end
@@ -98,17 +106,13 @@ post("/feed/add") do
 end
 
 put("/feed") do
-	feed = Feed.find_by(id: params[:feed_id]) 
-	kind = feed.kind.capitalize.constantize
-	post = kind.find_by(id: params[:id])     
+	post = find_post(params[:feed_id], params[:id])   
 	post.update(:tag => params[:tag])
 	redirect request.referrer
 end
 
 delete("/feed/post") do
-	feed = Feed.find_by(id: params[:feed_id]) 
-	kind = feed.kind.capitalize.constantize
-	post = kind.find_by(id: params[:id])   
+	post = find_post(params[:feed_id], params[:id])  
 	post.destroy
 	redirect request.referrer 
 end
