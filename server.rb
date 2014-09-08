@@ -38,13 +38,6 @@ get("/") do
 	erb(:index, { locals: {feeds: feeds } })
 end
 
-# get("/feed/search") do
-# 	feed = Feed.find_by(id: params[:feed_id])
-# 	kind = feed.kind.capitalize.constantize
-# 	search = params[:search]
-# 	posts = kind.where(tag: search)
-# 	erb(:search, { locals: { posts: posts, search: search } })
-# end
 get("/feed/search") do
 	feeds = Feed.all()
 	tagged = []
@@ -60,6 +53,25 @@ end
 get("/feed/:name") do
 	feeds = Feed.where(kind: params[:name])
 	erb(:feed, { locals: { feeds: feeds } })
+end
+
+get("/as") do
+	content_type :json
+	feeds = Feed.where(kind: params[:feed])
+	request = []
+	feeds.each do |feed|
+		kind = feed.kind.capitalize.constantize
+		posts = kind.all
+		posts.each do |post|
+			record = {
+				url: post.url,
+				content: post.content,
+				date: post.date
+			}
+			request << record
+		end
+	end
+	request.to_json
 end
 	
 post("/feed/add") do
