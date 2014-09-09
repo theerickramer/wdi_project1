@@ -7,7 +7,7 @@ class Sound < ActiveRecord::Base
 		feed = Feed.find_by(id: feed_id)
 		search = feed.search
 
-		tracks = client.get('/tracks', :limit => 10, :q => '#{search}') 
+		tracks = client.get('/tracks', :limit => 10, :q => search ) 
 
 		tracks.each do |track|
 	  		post = {

@@ -21,3 +21,4 @@ add spotify
 add rdio
 
 problems:
+how can i refactor all feeds?
