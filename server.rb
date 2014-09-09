@@ -22,10 +22,10 @@ def weather_update_daily
 	weather_feeds = Feed.where(kind: "forecast")
 	last_weather = weather_feeds.last
 	if last_weather
-		# last_get = last_weather.date.split("/")[1] # get last weather feed day
-		# if Time.now.strftime("%-d") > last_get # compare to last weather feed day
-		last_get = last_weather.date.split(":")[0].split(" ")[1] # get last weather feed hour
-		if Time.now.strftime("%-l") > last_get # compare to last weather feed hour
+		last_get = last_weather.date.split("/")[1] # get last weather feed day
+		if Time.now.strftime("%-d") > last_get # compare to last weather feed day
+		# last_get = last_weather.date.split(":")[0].split(" ")[1] # get last weather feed hour
+		# if Time.now.strftime("%-l") > last_get # compare to last weather feed hour
 			feed = Feed.create({kind: "forecast", search: last_weather.search, date: Time.now.strftime("%-m/%-d/%y %-l:%M:%S%p")})
 			Forecast.get(feed.id)
 		end
