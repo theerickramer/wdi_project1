@@ -3,7 +3,7 @@ require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default)
 
-require_relative "./config/connection"
+require_relative "./config/environments"
 require_relative "./lib/feed"
 require_relative "./lib/nytimes"
 require_relative "./lib/weather"
