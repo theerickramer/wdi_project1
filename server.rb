@@ -1,9 +1,11 @@
 ########## CONFIG ##########
+require 'uri'
+require 'pry'
 require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default)
 
-require_relative "./config/environments"
+require_relative "./lib/connection"
 require_relative "./lib/feed"
 require_relative "./lib/nytimes"
 require_relative "./lib/weather"
@@ -51,19 +53,29 @@ get("/") do
 	erb(:index, { locals: {feeds: feeds } })
 end
 
+# get("/feed/search") do
+# 	feed = Feed.find_by(id: params[:feed_id])
+# 	kind = feed.kind.capitalize.constantize
+# 	search = params[:search]
+# 	posts = kind.where(tag: search)
+# 	erb(:search, { locals: { posts: posts, search: search } })
+# end
+
 get("/feed/search") do
-	feeds = Feed.all()
 	tagged = []
 	search = params[:search]
-	feeds.each do |feed|
-		kind = feed.kind.capitalize.constantize
-		posts = kind.where(tag: search)
-		tagged << posts
-	end
+	tweets = Tweet.where(tag: search)
+	tagged << tweets
+	forecasts = Forecast.where(tag: search)
+	tagged << forecasts
+	articles = Article.where(tag: search)
+	tagged << articles
+	sounds = Sound.where(tag: search)
+	tagged << sounds
 	erb(:search, { locals: { tagged: tagged, search: search } })
 end
 
-get("/feed/:name") do
+get("/feed/:name") do	
 	feeds = Feed.where(kind: params[:name])
 	page = params[:page].to_i
 	erb(:feed, { locals: { feeds: feeds, page: page } })

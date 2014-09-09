@@ -5,7 +5,15 @@
 	<title>Search</title>
 </head>
 <body>
-	<h1>Search Results: #<%= search %></h1>
+	<link rel="stylesheet" type="text/css" href="../style.css">
+	<link href='http://fonts.googleapis.com/css?family=Exo:400,900italic' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div>
+	<h1 class="rad">RadDash</h1>
+	<h5> ..... where all your feeds are rrrrraaaaadddddiiiicccaaaallll</h5>
+	</div>
+	<h3>Search Results: #<%= search %></h3>
 	<ul>
 		<% tagged.each do |tag| %>
 			<% tag.each do |post| %>
