@@ -5,7 +5,8 @@ css
 
 design/css:
 add feed icons
-palleton - purple/yellow/grey/white
+https://lh6.googleusercontent.com/-AxnGfN8cSps/AAAAAAAAAAI/AAAAAAAABj4/HJ3gDwHwk0Q/photo.jpg?sz=48
+
 
 <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,700' rel='stylesheet' type='text/css'>
 font-family: 'Titillium Web', sans-serif;
